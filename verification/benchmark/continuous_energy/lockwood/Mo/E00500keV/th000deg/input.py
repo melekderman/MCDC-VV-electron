@@ -4,8 +4,23 @@ import math
 import mcdc
 from datetime import datetime
 
+PROCESS_DATA_LIBRARY_ENV = "MCDC_VV_PROCESS_DATA_LIBRARY_DIR"
+DATA_LIBRARY_DIR = os.path.abspath(
+    os.path.join(
+        os.path.dirname(__file__),
+        "..",
+        "..",
+        "..",
+        "..",
+        "..",
+        "..",
+        "..",
+        "electron-vv-data",
+    )
+)
+
 # Set the XS library directory
-os.environ["MCDC_XSLIB"] = os.path.join(os.path.dirname(os.path.dirname(os.getcwd())), "dummy_data")
+os.environ["MCDC_LIB"] = os.environ.get(PROCESS_DATA_LIBRARY_ENV, DATA_LIBRARY_DIR)
 
 # =============================================================================
 # Set problem parameters
@@ -63,50 +78,24 @@ mat = mcdc.Material(
 # =============================================================================
 # Z-direction surfaces for layers
 
-s1 = mcdc.surface("plane-z", z=0, bc="vacuum")
-s2 = mcdc.surface("plane-z", z=L, bc="vacuum")
+s1 = mcdc.Surface.PlaneZ(z=0.0, boundary_condition="vacuum")
+s2 = mcdc.Surface.PlaneZ(z=L, boundary_condition="vacuum")
 
-mcdc.cell(+s1 & -s2, mat)
+mcdc.Cell(region=+s1 & -s2, fill=mat)
 
 # =============================================================================
 # Set source
 # =============================================================================
 # Parallel beam of 1 MeV electrons entering at z=0
 
-mcdc.source(
+mcdc.Source(
     z=[z0 + TINY, z0 + TINY],
-    particle_type='electron',
+    particle_type="electron",
     energy=np.array([[ENERGY - 1, ENERGY + 1], [0.5, 0.5]]),
-    direction=[math.sin(THETA), 0.0+TINY, math.cos(THETA)]
+    direction=[math.sin(THETA), 0.0 + TINY, math.cos(THETA)],
 )
 
 # =============================================================================
-# Set tally
-# =============================================================================
-# Energy deposition tally along z-axis
-z_bins = np.linspace(0.0, L, N_LAYERS + 1)
-
-mcdc.tally.mesh_tally(
-    scores=["edep", "flux"],
-    z=z_bins
-)
-
-mcdc.tally.surface_tally(s1, scores=["net-current"])
-mcdc.tally.surface_tally(s2, scores=["net-current"])
-
-# =============================================================================
-# Settings and run
-# =============================================================================
-settings = mcdc.Settings(
-    N_particle=N_PARTICLES,
-    active_bank_buffer=N_PARTICLES*10
-)
-
-settings.save_input_deck = True
-settings.output_name = f"lw_{MATERIAL_SYMBOL}_{e_name}eV_1e{np_name}p_{datetime.now():%Y%m%d_%H%M%S}"
-settings.use_progress_bar = True
-
-mcdc.run()# =============================================================================
 # Set tally
 # =============================================================================
 # Energy deposition tally along z-axis
@@ -122,11 +111,9 @@ mcdc.Tally(name="s2_current", surface=s2, scores=["net-current"])
 # Settings and run
 # =============================================================================
 mcdc.settings.set_transported_particles(["electron"])
-mcdc.settings.set_electron_elastic_mode("coupled")
 mcdc.settings.N_particle = N_PARTICLES
 mcdc.settings.active_bank_buffer = N_PARTICLES * 100
 
-mcdc.settings.save_input_deck = True
 mcdc.settings.output_name = f"lw_{MATERIAL_SYMBOL}_{e_name}eV_1e{np_name}p_{datetime.now():%Y%m%d_%H%M%S}"
 mcdc.settings.use_progress_bar = True
 
