@@ -1,13 +1,12 @@
 #!/bin/bash
-#SBATCH --job-name=mcdc-vv-electron
-#SBATCH --partition=pbatch
-#SBATCH --nodes=1
-#SBATCH --ntasks-per-node=64
-#SBATCH --cpus-per-task=1
-#SBATCH --hint=nomultithread
-#SBATCH --time=06:00:00
-#SBATCH --output=%x-%j.out
-#SBATCH --error=%x-%j.err
+
+# flux: --job-name=mcdc-vv-electron
+# flux: --queue=pbatch
+# flux: -N 1
+# flux: -n=64
+# flux: -t 8h
+# flux: --output=mcdce-vv.out
+# flux: --error=mcdce-vv.err
 
 set -euo pipefail
 

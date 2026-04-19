@@ -1,0 +1,11 @@
+Dane job configuration:
+  ROOT_DIR=/usr/WS2/derman1/dane-beforeTST26/MCDCe-VV
+  CASE_ROOT=/usr/WS2/derman1/dane-beforeTST26/MCDCe-VV/verification/benchmark/continuous_energy
+  MCDC_ROOT=/usr/WS2/derman1/dane-beforeTST26/MCDC
+  PYTHON_BIN=python3
+  MPI_EXEC=srun
+  MPI_PROCS=112
+  MCDC_VV_MIN_PARTICLES_PER_RANK=3000
+  NUMBA_CACHE_DIR=/tmp/derman1/mcdc-vv-electron-5777206/numba-cache
+Running command:
+  python3  /usr/WS2/derman1/dane-beforeTST26/MCDCe-VV/slurm/run_mcdc_vv_electron.py  --case-root  /usr/WS2/derman1/dane-beforeTST26/MCDCe-VV/verification/benchmark/continuous_energy  --mcdc-root  /usr/WS2/derman1/dane-beforeTST26/MCDC  --mode  numba  --target  cpu  --mpi-exec  srun  --mpi-procs  112  --caching  --no-progress-bar  --particles  100000

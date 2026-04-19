@@ -1,0 +1,11 @@
+Error: Could not resolve the MCDC electron data library directory.
+Set --data-library or one of the supported environment variables.
+Common layouts are sibling `mcdc_data` and legacy `electron-vv-data`.
+Tried:
+  - /usr/WS2/derman1/dane-beforeTST26/mcdc_data
+  - /usr/WS2/derman1/dane-beforeTST26/MCDCe-VV/mcdc_data
+  - /usr/WS2/derman1/dane-beforeTST26/MCDCe-VV/verification/benchmark/continuous_energy/mcdc_data
+  - /usr/WS2/derman1/dane-beforeTST26/MCDCe-VV/electron-vv-data
+  - /usr/WS2/derman1/dane-beforeTST26/MCDCe-VV/verification/benchmark/continuous_energy/electron-vv-data
+  - /usr/WS2/derman1/dane-beforeTST26/MCDCe-VV/PyEEDL/mcdc_data
+  - /usr/WS2/derman1/dane-beforeTST26/MCDC/mcdc-regression_test_data
