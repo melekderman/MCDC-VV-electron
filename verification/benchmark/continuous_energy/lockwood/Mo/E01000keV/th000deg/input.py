@@ -44,7 +44,8 @@ AREAL_DENSITY_G_CM2 = 5.301e-3 #g/cm2
 dz = AREAL_DENSITY_G_CM2 / RHO_G_CM3
 AVAGADRO_NUMBER = 6.02214076e23  # atoms/mol
 MAT_DENSITY_ATOMS_PER_BARN_CM = AVAGADRO_NUMBER / ATOMIC_WEIGHT_G_MOL * RHO_G_CM3 / 1e24  # atoms/barn-cm
-TINY = 1e-30
+TINY = 1e-6 * dz
+SOURCE_OFFSET = max(1e-8, 1e-3 * dz)
 SUBZONES_PER_FOIL = 1  # tally sub-bins per foil; raise for finer profile resolution
 L = CSDA_RANGE / RHO_G_CM3 # cm
 N_LAYERS = int(L / dz) * SUBZONES_PER_FOIL
@@ -90,10 +91,10 @@ mcdc.Cell(region=+s1 & -s2, fill=mat)
 # Parallel beam of 1 MeV electrons entering at z=0
 
 mcdc.Source(
-    z=[z0 + TINY, z0 + TINY],
+    z=[z0 + SOURCE_OFFSET, z0 + SOURCE_OFFSET],
     particle_type='electron',
     energy=np.array([[ENERGY - 1, ENERGY + 1], [0.5, 0.5]]),
-    direction=[math.sin(THETA), 0.0+TINY, math.cos(THETA)]
+    direction=[math.sin(THETA), 0.0, math.cos(THETA)]
 )
 
 # =============================================================================
