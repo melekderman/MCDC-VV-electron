@@ -27,8 +27,8 @@ os.environ["MCDC_LIB"] = os.environ.get(PROCESS_DATA_LIBRARY_ENV, DATA_LIBRARY_D
 # =============================================================================
 # Energy and Angle Parameters
 MATERIAL_SYMBOL = "Al"
-ENERGY = 1e5  # eV
-CSDA_RANGE = 0.00604 # g/cm2
+ENERGY = 5e4  # eV (nominal 0.050 MeV; Lockwood beam 0.058 MeV)
+CSDA_RANGE = 0.00663 # g/cm2  (Lockwood SAND79-0414 Table V.C, at 0.058 MeV)
 ANGLE = 0.0
 
 # MCDC Simulation Parameters
@@ -37,7 +37,7 @@ z0 = 0.0  # Starting source position
 
 # Material Properties
 RHO_G_CM3 = 2.70   # g/cm3
-ATOMIC_WEIGHT_G_MOL = 26.7497084 # g/mol
+ATOMIC_WEIGHT_G_MOL = 26.9815385 # g/mol
 AREAL_DENSITY_G_CM2 = 5.05e-3 #g/cm2
 
 # Standard Calculations
@@ -45,8 +45,9 @@ dz = AREAL_DENSITY_G_CM2 / RHO_G_CM3
 AVAGADRO_NUMBER = 6.02214076e23  # atoms/mol
 MAT_DENSITY_ATOMS_PER_BARN_CM = AVAGADRO_NUMBER / ATOMIC_WEIGHT_G_MOL * RHO_G_CM3 / 1e24  # atoms/barn-cm
 TINY = 1e-30
+SUBZONES_PER_FOIL = 1  # tally sub-bins per foil; raise for finer profile resolution
 L = CSDA_RANGE / RHO_G_CM3 # cm
-N_LAYERS = int(L / dz)
+N_LAYERS = int(L / dz) * SUBZONES_PER_FOIL
 THETA = math.radians(ANGLE)
 
 # Output variables for naming

@@ -45,8 +45,9 @@ dz = AREAL_DENSITY_G_CM2 / RHO_G_CM3
 AVAGADRO_NUMBER = 6.02214076e23  # atoms/mol
 MAT_DENSITY_ATOMS_PER_BARN_CM = AVAGADRO_NUMBER / ATOMIC_WEIGHT_G_MOL * RHO_G_CM3 / 1e24  # atoms/barn-cm
 TINY = 1e-30
+SUBZONES_PER_FOIL = 5  # tally sub-bins per foil; raise for finer profile resolution
 L = CSDA_RANGE / RHO_G_CM3 # cm
-N_LAYERS = int(L / dz)
+N_LAYERS = int(L / dz) * SUBZONES_PER_FOIL
 THETA = math.radians(ANGLE)
 
 # Output variables for naming
